@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>URL Decoder & Decoder</title>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.js"></script>
+    <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.12.1.js"></script>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="container" ng-controller="CoderController as coder">
+    <div class="jumbotron">
+        <div class = "row">
+            <div class ="col-md-2">
+            </div>
+            <div class ="col-md-8">
+                <div class="row">
+                    <h3 class="text-center"> Url Decoder & Encoder <small>--by NGloom</small></h3>
+                </div>
+
+                <div class="row">
+                    <textarea name="textarea" rows="10" style="width:100%" placeholder="Put Something Here" ng-model="coder.value" ng-change="coder.process()" select-on-click></textarea>
+                </div>
+                <div class="row">
+                    <div class="col-md-4"></div>
+                    <div class="col-md-4">
+                        <p></p>
+
+                        <div class="btn-group">
+                            <label class="btn btn-primary" ng-model="coder.decodeFlag" btn-radio="true" ng-click="coder.switch(true)">Decode</label>
+                            <label class="btn btn-primary" ng-model="coder.decodeFlag" btn-radio="false" ng-click="coder.switch(false)" >Encode</label>
+                        </div>
+                        <p></p>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <textarea name="textarea" rows="10" style="width:100%" placeholder="Output Space" readonly select-on-click>{{coder.output}}</textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var app = angular.module('urlCoder', ['ui.bootstrap']);
+
+    // select on clic directive
+    app.directive('selectOnClick', function () {
+        return {
+            restrict: 'A',
+            link: function (scope, element, attrs) {
+                element.on('click', function () {
+                    this.select();
+                });
+            }
+        };
+    });
+
+    app.controller('CoderController', function () {
+        var coder = this;
+        this.output = "https://www.google.com";
+        this.value=encodeURIComponent(this.output);
+        this.decodeFlag = true;
+
+        this.switch = function(status) {
+            coder.decodeFlag = status;
+            coder.process();
+        }
+
+        this.process = function() {
+            if (coder.decodeFlag) {
+                coder.output = decodeURIComponent(coder.value);
+            } else {
+                coder.output = encodeURIComponent(coder.value);
+            }
+        };
+    });
+</script>
+</body>
+</html>
+>
